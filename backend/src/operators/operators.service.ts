@@ -7,17 +7,17 @@ import { OperatorsRepository } from './operators.repository';
 export class OperatorsService {
   constructor(private readonly repository: OperatorsRepository) {}
 
-  async create(createOperatorDto: CreateOperatorDto) {
+  create(createOperatorDto: CreateOperatorDto) {
     return this.repository.create(createOperatorDto);
   }
 
-  async findAll() {
+  findAll() {
     return this.repository.findAll();
   }
 
-  async findOne(id: number) {
+  findOne(id: number) {
     try {
-      return await this.repository.findOne(id);
+      return this.repository.findOne(id);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new NotFoundException(
@@ -26,9 +26,9 @@ export class OperatorsService {
     }
   }
 
-  async update(id: number, updateOperatorDto: UpdateOperatorDto) {
+  update(id: number, updateOperatorDto: UpdateOperatorDto) {
     try {
-      return await this.repository.update(id, updateOperatorDto);
+      return this.repository.update(id, updateOperatorDto);
     } catch (error) {
       // Prisma error code for record not found
       if (error.code === 'P2025') {
@@ -40,9 +40,9 @@ export class OperatorsService {
     }
   }
 
-  async remove(id: number) {
+  remove(id: number) {
     try {
-      return await this.repository.remove(id);
+      return this.repository.remove(id);
     } catch (error) {
       // Prisma error code for record not found
       if (error.code === 'P2025') {
