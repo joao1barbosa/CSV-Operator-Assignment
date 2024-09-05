@@ -27,7 +27,7 @@ export class OperatorsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
     return await this.operatorsService.findOne(+id);
   }
 

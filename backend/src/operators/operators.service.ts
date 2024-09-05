@@ -1,38 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOperatorDto } from './dto/create-operator.dto';
 import { UpdateOperatorDto } from './dto/update-operator.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { OperatorsRepository } from './operators.repository';
 
 @Injectable()
 export class OperatorsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly repository: OperatorsRepository) {}
 
   async create(createOperatorDto: CreateOperatorDto) {
-    return await this.prisma.operator.create({
-      data: createOperatorDto,
-    });
+    return this.repository.create(createOperatorDto);
   }
 
   async findAll() {
-    return this.prisma.operator.findMany();
+    return this.repository.findAll();
   }
 
   async findOne(id: number) {
-    return await this.prisma.operator.findUnique({
-      where: { id },
-    });
+    try {
+      return await this.repository.findOne(id);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      throw new NotFoundException(
+        `Nenhum operador com ID ${id} foi encontrado`,
+      );
+    }
   }
 
   async update(id: number, updateOperatorDto: UpdateOperatorDto) {
-    return await this.prisma.operator.update({
-      where: { id },
-      data: updateOperatorDto,
-    });
+    try {
+      return await this.repository.update(id, updateOperatorDto);
+    } catch (error) {
+      // Prisma error code for record not found
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `Nenhum operador com ID ${id} foi encontrado`,
+        );
+      }
+      throw error; // Re-throw if it's a different error
+    }
   }
 
   async remove(id: number) {
-    return await this.prisma.operator.delete({
-      where: { id },
-    });
+    try {
+      return await this.repository.remove(id);
+    } catch (error) {
+      // Prisma error code for record not found
+      if (error.code === 'P2025') {
+        throw new NotFoundException(
+          `Nenhum operador com ID ${id} foi encontrado`,
+        );
+      }
+      throw error; // Re-throw if it's a different error
+    }
   }
 }
