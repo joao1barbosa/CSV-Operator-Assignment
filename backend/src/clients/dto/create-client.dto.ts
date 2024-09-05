@@ -6,6 +6,7 @@ import {
   Length,
   IsOptional,
 } from 'class-validator';
+import { IsDateFormat } from '../validators/is-date-format.validator';
 
 export class CreateClientDto {
   @IsString({
@@ -18,6 +19,9 @@ export class CreateClientDto {
 
   @IsNotEmpty({
     message: 'Data de nascimento não pode ser vazio.',
+  })
+  @IsDateFormat({
+    message: 'Data de nascimento deve estar no formato dd/mm/yyyy.',
   })
   birth_date: string;
 
@@ -32,12 +36,12 @@ export class CreateClientDto {
   @IsNotEmpty({
     message: 'Email não pode ser vazio.',
   })
-  @IsEmail({}, { message: 'Formato de email inválido' })
+  @IsEmail({}, { message: 'Formato de email inválido.' })
   email: string;
 
   @IsOptional()
   @IsInt({
-    message: 'O ID do operador dever ser um inteiro',
+    message: 'O ID do operador dever ser um inteiro.',
   })
   operatorId: number | null;
 }
