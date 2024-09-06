@@ -1,10 +1,10 @@
-import { Module, ValidationPipe } from '@nestjs/common';
-import { ClientsService } from './clients.service';
-import { ClientsController } from './clients.controller';
+import { Module } from '@nestjs/common';
+import { ClientsService } from './services/clients.service';
+import { ClientsController } from './controllers/clients.controller';
 import { PrismaModule } from 'src/prisma/prisma.module';
-import { ClientRepository } from './clients.repository';
-import { OperatorExistsValidator } from './validators/operator-exists.validator';
-import { APP_PIPE } from '@nestjs/core';
+import { ClientRepository } from './repositories/clients.repository';
+import { OperatorValidationService } from './services/operator-validation.service';
+import { EmailValidationService } from './services/email-validation.service';
 
 @Module({
   imports: [PrismaModule],
@@ -12,11 +12,8 @@ import { APP_PIPE } from '@nestjs/core';
   providers: [
     ClientsService,
     ClientRepository,
-    OperatorExistsValidator,
-    {
-      provide: APP_PIPE,
-      useClass: ValidationPipe,
-    },
+    OperatorValidationService,
+    EmailValidationService,
   ],
 })
 export class ClientsModule {}
