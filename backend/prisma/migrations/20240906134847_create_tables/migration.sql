@@ -17,11 +17,11 @@ CREATE TABLE `Client` (
     `email` VARCHAR(191) NOT NULL,
     `updatedAt` DATETIME(3) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `operatorId` INTEGER NOT NULL,
+    `operatorId` INTEGER NULL,
 
     UNIQUE INDEX `Client_email_key`(`email`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Client` ADD CONSTRAINT `Client_operatorId_fkey` FOREIGN KEY (`operatorId`) REFERENCES `Operator`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Client` ADD CONSTRAINT `Client_operatorId_fkey` FOREIGN KEY (`operatorId`) REFERENCES `Operator`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

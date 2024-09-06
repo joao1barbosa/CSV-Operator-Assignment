@@ -5,8 +5,10 @@ import {
   IsEmail,
   Length,
   IsOptional,
+  Validate,
 } from 'class-validator';
 import { IsDateFormat } from '../validators/is-date-format.validator';
+import { OperatorExistsValidator } from '../validators/operator-exists.validator';
 
 export class CreateClientDto {
   @IsString({
@@ -40,6 +42,7 @@ export class CreateClientDto {
   email: string;
 
   @IsOptional()
+  @Validate(OperatorExistsValidator)
   @IsInt({
     message: 'O ID do operador dever ser um inteiro.',
   })
