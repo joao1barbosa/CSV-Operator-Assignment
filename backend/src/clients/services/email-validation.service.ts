@@ -1,14 +1,12 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { ClientRepository } from '../repositories/clients.repository';
 
 @Injectable()
 export class EmailValidationService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private respository: ClientRepository) {}
 
   async ensureEmailDoesNotExist(email: string): Promise<void> {
-    const emailExist = await this.prisma.client.findUnique({
-      where: { email },
-    });
+    const emailExist = await this.respository.findByEmail(email);
     if (!!emailExist) {
       throw new BadRequestException(`O email já está em uso.`);
     }

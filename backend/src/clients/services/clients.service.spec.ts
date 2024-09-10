@@ -3,7 +3,7 @@ import { ClientsService } from './clients.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { ClientRepository } from '../repositories/clients.repository';
 import { EmailValidationService } from './email-validation.service';
-import { OperatorValidationService } from './operator-validation.service';
+import { OperatorValidationService } from '../../operators/services/operator-validation.service';
 import { OperatorsRepository } from 'src/operators/repositories/operators.repository';
 
 describe('ClientsService', () => {

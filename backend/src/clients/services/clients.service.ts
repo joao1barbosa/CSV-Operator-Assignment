@@ -9,7 +9,7 @@ import { CreateClientDto } from '../dto/create-client.dto';
 import { UpdateClientDto } from '../dto/update-client.dto';
 import { ClientRepository } from '../repositories/clients.repository';
 import { OperatorsRepository } from 'src/operators/repositories/operators.repository';
-import { OperatorValidationService } from './operator-validation.service';
+import { OperatorValidationService } from '../../operators/services/operator-validation.service';
 import { EmailValidationService } from './email-validation.service';
 import * as csvParser from 'csv-parser';
 import * as fastCsv from 'fast-csv';
