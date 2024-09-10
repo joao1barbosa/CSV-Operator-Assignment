@@ -7,10 +7,14 @@ import {
   Param,
   Delete,
   ParseIntPipe,
+  Res,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { ClientsService } from '../services/clients.service';
 import { CreateClientDto } from '../dto/create-client.dto';
 import { UpdateClientDto } from '../dto/update-client.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('clients')
 export class ClientsController {
@@ -24,6 +28,17 @@ export class ClientsController {
   @Get()
   async findAll() {
     return await this.clientsService.findAll();
+  }
+
+  @Get('download')
+  async downloadFile(@Res() res: Response) {
+    return await this.clientsService.export(res);
+  }
+
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file', { dest: './uploads' }))
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+    return await this.clientsService.import(file);
   }
 
   @Get(':id')
