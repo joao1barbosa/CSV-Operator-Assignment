@@ -1,18 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { OperatorsService } from './operators.service';
-import { OperatorsRepository } from '../repositories/operators.repository';
+import { OperatorValidationService } from './operator-validation.service';
 import { PrismaModule } from 'src/prisma/prisma.module';
 
-describe('OperatorsService', () => {
-  let service: OperatorsService;
+describe('OperatorValidationService', () => {
+  let service: OperatorValidationService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [PrismaModule],
-      providers: [OperatorsService, OperatorsRepository],
+      providers: [OperatorValidationService],
     }).compile();
 
-    service = module.get<OperatorsService>(OperatorsService);
+    service = module.get<OperatorValidationService>(OperatorValidationService);
   });
 
   it('should be defined', () => {
