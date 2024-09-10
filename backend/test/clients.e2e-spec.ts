@@ -53,7 +53,7 @@ describe('ClientsController (e2e)', () => {
 
   it('/clients/upload (POST)', () => {
     const file = Buffer.from(
-      'name,birth_date,value,email\nJohn Doe,01/01/200,1000,john.doe@example.com',
+      'nome, nascimento, valor, email\nJohn Doe,01/01/2000,10.00,john.doe@example.com',
       'utf-8',
     );
     return request(app.getHttpServer())

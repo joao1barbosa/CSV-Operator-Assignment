@@ -268,7 +268,7 @@ describe('ClientsService', () => {
 
       fs.writeFileSync(
         tempFilePath,
-        'name,birth_date,value,email\nJohn Doe,01/01/1990,100,john@example.com',
+        'nome,nascimento,valor,email\nJohn Doe,01/01/1990,100.00,john@example.com',
       );
 
       const file = { path: tempFilePath } as Express.Multer.File;

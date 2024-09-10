@@ -145,7 +145,16 @@ export class ClientsService {
     try {
       const clients = await this.repository.findAll();
 
-      const ws = fastCsv.write(clients, { headers: true });
+      const transformedClients = clients.map((client) => ({
+        id: client.id,
+        nome: client.name,
+        nascimento: client.birth_date,
+        valor: client.value / 100,
+        email: client.email,
+        operador: client.operatorId,
+      }));
+
+      const ws = fastCsv.write(transformedClients, { headers: true });
       res.setHeader('Content-Disposition', 'attachment; filename=clients.csv');
       res.setHeader('Content-Type', 'text/csv');
       ws.pipe(res);
