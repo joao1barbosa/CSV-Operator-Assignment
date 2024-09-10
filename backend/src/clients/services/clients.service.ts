@@ -8,16 +8,19 @@ import {
 import { CreateClientDto } from '../dto/create-client.dto';
 import { UpdateClientDto } from '../dto/update-client.dto';
 import { ClientRepository } from '../repositories/clients.repository';
+import { OperatorsRepository } from 'src/operators/repositories/operators.repository';
 import { OperatorValidationService } from './operator-validation.service';
 import { EmailValidationService } from './email-validation.service';
 import * as csvParser from 'csv-parser';
 import * as fastCsv from 'fast-csv';
 import * as fs from 'fs';
+import { ClientDto } from 'src/types/client.types';
 
 @Injectable()
 export class ClientsService {
   constructor(
     private readonly repository: ClientRepository,
+    private readonly operatorRepository: OperatorsRepository,
     private readonly operatorValidationService: OperatorValidationService,
     private emailValidationService: EmailValidationService,
   ) {}
@@ -44,8 +47,8 @@ export class ClientsService {
     }
   }
 
-  findAll() {
-    return this.repository.findAll();
+  async findAll() {
+    return await this.repository.findAll();
   }
 
   async findOne(id: number) {
@@ -92,9 +95,9 @@ export class ClientsService {
     }
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     try {
-      return this.repository.remove(id);
+      return await this.repository.remove(id);
     } catch (error) {
       // Prisma error code for record not found
       if (error.code === 'P2025') {
@@ -113,36 +116,15 @@ export class ClientsService {
         HttpStatus.BAD_REQUEST,
       );
 
-    const clients = [];
+    const clients = await this.parseCSV(file.path);
+    const operators = await this.operatorRepository.findIds();
 
-    return new Promise((resolve, reject) => {
-      fs.createReadStream(file.path)
-        .pipe(csvParser(['name', 'birth_date', 'value', 'email']))
-        .on('data', (row) => {
-          clients.push(row);
-        })
-        .on('end', async () => {
-          try {
-            clients.shift();
-            for (const client of clients) {
-              await this.repository.create({
-                name: client.name.trim(),
-                birth_date: client.birth_date.trim(),
-                value: Math.round(parseFloat(client.value.trim()) * 100),
-                email: client.email.trim(),
-                operatorId: null,
-              });
-            }
-            resolve();
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          } catch (error) {
-            reject(new BadRequestException('Erro ao importar Clientes'));
-          }
-        })
-        .on('error', () => {
-          reject(new BadRequestException('Erro ao processar o arquivo CSV'));
-        });
-    });
+    if (!operators.length)
+      throw new NotFoundException(
+        'Nenhum operador encontrado para distribuir clientes.',
+      );
+
+    return await this.distribute(clients, operators);
   }
 
   async export(res): Promise<void> {
@@ -155,6 +137,61 @@ export class ClientsService {
       ws.pipe(res);
     } catch (error) {
       throw error;
+    }
+  }
+
+  private async parseCSV(filePath: string): Promise<ClientDto[]> {
+    return new Promise((resolve, reject) => {
+      const clients = [];
+      fs.createReadStream(filePath)
+        .pipe(csvParser(['name', 'birth_date', 'value', 'email']))
+        .on('data', (row) => clients.push(row))
+        .on('end', () => resolve(clients.slice(1)))
+        .on('error', () => {
+          reject(new BadRequestException('Erro ao processar o arquivo CSV'));
+        });
+    });
+  }
+
+  private async distribute(
+    clients: ClientDto[],
+    operators: { id: number }[],
+  ): Promise<void> {
+    try {
+      for (let i = 0; i < clients.length; i++) {
+        const client = clients[i];
+        const operator = operators[i % operators.length];
+        await this.create({
+          name: client.name.trim(),
+          birth_date: client.birth_date.trim(),
+          value: Math.round(parseFloat(client.value.trim()) * 100),
+          email: client.email.trim(),
+          operatorId: operator.id,
+        });
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async redistribute() {
+    const clients = await this.findAll();
+    const operators = await this.operatorRepository.findIds();
+
+    if (!operators.length)
+      throw new NotFoundException(
+        'Nenhum operador encontrado para distribuir clientes.',
+      );
+
+    let operatorIndex = 0;
+    for (const client of clients) {
+      await this.update(client.id, { operatorId: operators[operatorIndex].id });
+
+      operatorIndex++;
+      if (operators[operatorIndex] === undefined) {
+        operatorIndex = 0;
+      }
     }
   }
 }

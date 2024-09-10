@@ -4,8 +4,8 @@ import {
   operatorSelect,
   operatorWithClientsSelect,
 } from 'src/common/selects/operator-select';
-import { CreateOperatorDto } from './dto/create-operator.dto';
-import { UpdateOperatorDto } from './dto/update-operator.dto';
+import { CreateOperatorDto } from '../dto/create-operator.dto';
+import { UpdateOperatorDto } from '../dto/update-operator.dto';
 
 @Injectable()
 export class OperatorsRepository {
@@ -21,6 +21,14 @@ export class OperatorsRepository {
   async findAll() {
     return await this.prisma.operator.findMany({
       select: operatorWithClientsSelect,
+    });
+  }
+
+  async findIds() {
+    return await this.prisma.operator.findMany({
+      select: {
+        id: true,
+      },
     });
   }
 

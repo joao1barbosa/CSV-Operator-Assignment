@@ -35,6 +35,11 @@ export class ClientsController {
     return await this.clientsService.export(res);
   }
 
+  @Get('redistribute')
+  async redistributeClients() {
+    return await this.clientsService.redistribute();
+  }
+
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', { dest: './uploads' }))
   async uploadFile(@UploadedFile() file: Express.Multer.File) {

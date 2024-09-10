@@ -8,9 +8,9 @@ import {
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
-import { OperatorsService } from './operators.service';
-import { CreateOperatorDto } from './dto/create-operator.dto';
-import { UpdateOperatorDto } from './dto/update-operator.dto';
+import { OperatorsService } from '../services/operators.service';
+import { CreateOperatorDto } from '../dto/create-operator.dto';
+import { UpdateOperatorDto } from '../dto/update-operator.dto';
 
 @Controller('operators')
 export class OperatorsController {

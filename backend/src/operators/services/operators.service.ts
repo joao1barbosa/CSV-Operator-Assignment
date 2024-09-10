@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateOperatorDto } from './dto/create-operator.dto';
-import { UpdateOperatorDto } from './dto/update-operator.dto';
-import { OperatorsRepository } from './operators.repository';
+import { CreateOperatorDto } from '../dto/create-operator.dto';
+import { UpdateOperatorDto } from '../dto/update-operator.dto';
+import { OperatorsRepository } from '../repositories/operators.repository';
 
 @Injectable()
 export class OperatorsService {

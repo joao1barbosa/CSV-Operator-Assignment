@@ -6,6 +6,7 @@ import { ClientRepository } from './repositories/clients.repository';
 import { OperatorValidationService } from './services/operator-validation.service';
 import { EmailValidationService } from './services/email-validation.service';
 import { MulterModule } from '@nestjs/platform-express';
+import { OperatorsRepository } from 'src/operators/repositories/operators.repository';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { MulterModule } from '@nestjs/platform-express';
   providers: [
     ClientsService,
     ClientRepository,
+    OperatorsRepository,
     OperatorValidationService,
     EmailValidationService,
   ],
