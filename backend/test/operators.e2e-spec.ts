@@ -16,7 +16,7 @@ describe('OperatorsController (e2e)', () => {
   });
 
   it('/operators (GET)', () => {
-    return request(app.getHttpServer()).get('/api/v1/operators').expect(200);
+    return request(app.getHttpServer()).get('/operators').expect(200);
   });
 
   it('/operators (POST)', () => {
@@ -24,13 +24,13 @@ describe('OperatorsController (e2e)', () => {
       name: 'Operator 1',
     };
     return request(app.getHttpServer())
-      .post('/api/v1/operators')
+      .post('/operators')
       .send(createOperatorDto)
       .expect(201);
   });
 
   it('/operators/:id (GET)', () => {
-    return request(app.getHttpServer()).get('/api/v1/operators/1').expect(200);
+    return request(app.getHttpServer()).get('/operators/1').expect(200);
   });
 
   it('/operators/:id (PATCH)', () => {
@@ -38,15 +38,13 @@ describe('OperatorsController (e2e)', () => {
       name: 'Updated Operator',
     };
     return request(app.getHttpServer())
-      .patch('/api/v1/operators/1')
+      .patch('/operators/1')
       .send(updateOperatorDto)
       .expect(200);
   });
 
   it('/operators/:id (DELETE)', () => {
-    return request(app.getHttpServer())
-      .delete('/api/v1/operators/1')
-      .expect(200);
+    return request(app.getHttpServer()).delete('/operators/1').expect(200);
   });
 
   afterAll(async () => {

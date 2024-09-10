@@ -16,48 +16,48 @@ describe('ClientsController (e2e)', () => {
   });
 
   it('/clients (GET)', () => {
-    return request(app.getHttpServer()).get('/api/v1/clients').expect(200);
+    return request(app.getHttpServer()).get('/clients').expect(200);
   });
 
   it('/clients (POST)', () => {
     const createClientDto = {
-      name: 'John Doe',
-      birth_date: '1990-01-01',
+      name: 'Julio',
+      birth_date: '01/01/2001',
       value: 100,
       email: 'john.doe@example.com',
       operatorId: 1,
     };
     return request(app.getHttpServer())
-      .post('/api/v1/clients')
+      .post('/clients')
       .send(createClientDto)
       .expect(201);
   });
 
   it('/clients/:id (GET)', () => {
-    return request(app.getHttpServer()).get('/api/v1/clients/1').expect(200);
+    return request(app.getHttpServer()).get('/clients/1').expect(200);
   });
 
   it('/clients/:id (PATCH)', () => {
     const updateClientDto = {
-      name: 'Jane Doe',
+      name: 'Julio2',
     };
     return request(app.getHttpServer())
-      .patch('/api/v1/clients/1')
+      .patch('/clients/1')
       .send(updateClientDto)
       .expect(200);
   });
 
   it('/clients/:id (DELETE)', () => {
-    return request(app.getHttpServer()).delete('/api/v1/clients/1').expect(200);
+    return request(app.getHttpServer()).delete('/clients/1').expect(200);
   });
 
   it('/clients/upload (POST)', () => {
     const file = Buffer.from(
-      'name,birth_date,value,email\nJohn Doe,1990-01-01,100,john.doe@example.com',
+      'name,birth_date,value,email\nJohn Doe,01/01/200,1000,john.doe@example.com',
       'utf-8',
     );
     return request(app.getHttpServer())
-      .post('/api/v1/clients/upload')
+      .post('/clients/upload')
       .attach('file', file, 'clients.csv')
       .expect(201);
   });
