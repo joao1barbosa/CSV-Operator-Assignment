@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateOperatorDto } from '../dto/create-operator.dto';
 import { UpdateOperatorDto } from '../dto/update-operator.dto';
 import { OperatorsRepository } from '../repositories/operators.repository';
@@ -7,17 +11,21 @@ import { OperatorsRepository } from '../repositories/operators.repository';
 export class OperatorsService {
   constructor(private readonly repository: OperatorsRepository) {}
 
-  create(createOperatorDto: CreateOperatorDto) {
-    return this.repository.create(createOperatorDto);
-  }
-
-  findAll() {
-    return this.repository.findAll();
-  }
-
-  findOne(id: number) {
+  async create(createOperatorDto: CreateOperatorDto) {
     try {
-      return this.repository.findOne(id);
+      return await this.repository.create(createOperatorDto);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async findAll() {
+    return await this.repository.findAll();
+  }
+
+  async findOne(id: number) {
+    try {
+      return await this.repository.findOne(id);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       throw new NotFoundException(
@@ -26,9 +34,9 @@ export class OperatorsService {
     }
   }
 
-  update(id: number, updateOperatorDto: UpdateOperatorDto) {
+  async update(id: number, updateOperatorDto: UpdateOperatorDto) {
     try {
-      return this.repository.update(id, updateOperatorDto);
+      return await this.repository.update(id, updateOperatorDto);
     } catch (error) {
       // Prisma error code for record not found
       if (error.code === 'P2025') {
@@ -40,9 +48,9 @@ export class OperatorsService {
     }
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     try {
-      return this.repository.remove(id);
+      return await this.repository.remove(id);
     } catch (error) {
       // Prisma error code for record not found
       if (error.code === 'P2025') {

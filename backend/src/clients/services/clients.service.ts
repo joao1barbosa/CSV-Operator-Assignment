@@ -110,21 +110,35 @@ export class ClientsService {
   }
 
   async import(file: Express.Multer.File): Promise<void> {
-    if (!file)
+    if (!file) {
       throw new HttpException(
         'Nenhum arquivo foi enviado',
         HttpStatus.BAD_REQUEST,
       );
+    }
 
-    const clients = await this.parseCSV(file.path);
-    const operators = await this.operatorRepository.findIds();
+    try {
+      const clients = await this.parseCSV(file.path);
+      const operators = await this.operatorRepository.findIds();
 
-    if (!operators.length)
-      throw new NotFoundException(
-        'Nenhum operador encontrado para distribuir clientes.',
-      );
+      if (!operators.length) {
+        throw new NotFoundException(
+          'Nenhum operador encontrado para distribuir clientes.',
+        );
+      }
 
-    return await this.distribute(clients, operators);
+      await this.distribute(clients, operators);
+    } catch (error) {
+      // Rethrow the error if something goes wrong during the import process
+      throw error;
+    } finally {
+      // Ensure the file is removed whether the import was successful or not
+      fs.unlink(file.path, (err) => {
+        if (err) {
+          console.error('Erro ao remover o arquivo:', err);
+        }
+      });
+    }
   }
 
   async export(res): Promise<void> {
