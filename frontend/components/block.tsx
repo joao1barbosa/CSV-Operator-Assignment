@@ -10,8 +10,10 @@ interface BlockProps{
 export default function Block({operator}: BlockProps) {
     return (
         <Card className="operator-card shadow-xl">
-            <CardHeader className="pb-3 pt-4">
+            <CardHeader className="flex flex-row items-center pb-3 pt-4">
                 <CardTitle>{operator.name}</CardTitle>
+                &nbsp;
+                <p>({operator.id})</p>
             </CardHeader>
             <CardContent className="flex flex-row justify-between">
                 <div className="mr-4">|</div>

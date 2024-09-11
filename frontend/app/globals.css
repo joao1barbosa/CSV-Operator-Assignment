@@ -54,17 +54,16 @@
 
 :root {
   --foreground-hex: #000000;
-  --background-hex: #b9b9b9;
+  --background-hex: #d4d4d4;
   --card: #0A1603;
   --card-foreground: #008D1F;
+  --color-primary: #82C65B;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-hex: #ffffff;
     --background-hex: #1E1E1E;
-    --card: #0A1603;
-    --card-foreground: #008D1F;
   }
 }
 
@@ -92,5 +91,11 @@ body {
     background-color: var(--card) !important;
     color: var(--card-foreground) !important;
     border-width: 0 !important;
+  }
+
+  .primary-btn{
+    background-color: var(--color-primary) !important;
+    color: #1E1E1E !important;
+    border-radius: 0.5rem 0 !important;
   }
 }

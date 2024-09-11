@@ -4,6 +4,7 @@ import logo from "@/public/logo.svg";
 import { Separator } from "@/components/ui/separator";
 import { useReadOperators } from "@/hooks/useOperatorQuery";
 import Block from "@/components/block";
+import NavButtons from "@/components/nav-buttons";
 
 export default function Home() {
   const { data: operatorsResponse } = useReadOperators();
@@ -17,9 +18,7 @@ export default function Home() {
               <Image alt="logo" src={logo}/>
             </figure>
           </a>
-          <div className="flex items-center">
-            buttons case
-          </div>
+          <NavButtons/>
         </nav>
       </header>
       <div className="flex w-full sm:w-3/4 justify-center opacity-30">
