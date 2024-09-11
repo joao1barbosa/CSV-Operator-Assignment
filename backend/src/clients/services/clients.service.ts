@@ -118,7 +118,13 @@ export class ClientsService {
     }
 
     try {
-      const clients = await this.parseCSV(file.path);
+      const { clients, header } = await this.parseCSV(file.path);
+
+      const expectedHeader = ['nome', 'nascimento', 'valor', 'email'];
+      if (!this.isValidHeader(header, expectedHeader)) {
+        throw new BadRequestException('Cabeçalho do CSV está incorreto');
+      }
+
       const operators = await this.operatorRepository.findIds();
 
       if (!operators.length) {
@@ -163,17 +169,34 @@ export class ClientsService {
     }
   }
 
-  private async parseCSV(filePath: string): Promise<ClientDto[]> {
+  private async parseCSV(
+    filePath: string,
+  ): Promise<{ clients: ClientDto[]; header: string[] }> {
     return new Promise((resolve, reject) => {
       const clients = [];
       fs.createReadStream(filePath)
         .pipe(csvParser(['name', 'birth_date', 'value', 'email']))
         .on('data', (row) => clients.push(row))
-        .on('end', () => resolve(clients.slice(1)))
+        .on('end', () => {
+          const header: string[] = [
+            clients[0].name,
+            clients[0].birth_date.trim(),
+            clients[0].value.trim(),
+            clients[0].email.trim(),
+          ];
+          resolve({ clients: clients.slice(1), header });
+        })
         .on('error', () => {
           reject(new BadRequestException('Erro ao processar o arquivo CSV'));
         });
     });
+  }
+
+  private isValidHeader(header: string[], expectedHeader: string[]): boolean {
+    return (
+      expectedHeader.every((field) => header.includes(field)) &&
+      header.length === expectedHeader.length
+    );
   }
 
   private async distribute(

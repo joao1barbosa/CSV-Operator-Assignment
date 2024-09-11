@@ -1,3 +1,5 @@
+import { clientSelect } from './client-select';
+
 export const operatorSelect = {
   id: true,
   name: true,
@@ -5,5 +7,10 @@ export const operatorSelect = {
 
 export const operatorWithClientsSelect = {
   ...operatorSelect,
-  clients: true,
+  clients: {
+    select: {
+      ...clientSelect,
+      operatorId: false,
+    },
+  },
 };
