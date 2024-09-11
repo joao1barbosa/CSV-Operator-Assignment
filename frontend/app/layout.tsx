@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Image from "next/image";
 import arrow from "@/public/arrow.svg";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
       <QueryClientProvider client={queryClient}>
         {children}
       </QueryClientProvider>
+      <Toaster/>
       </body>
     </html>
   );

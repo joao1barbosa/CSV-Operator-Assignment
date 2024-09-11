@@ -5,14 +5,15 @@ import { Button } from "./ui/button";
 interface PrimatyButtonProps {
     Icon: LucideIcon;
     tip: string;
+    onClick?: () => void;
 }
 
-export default function PrimaryButton({ Icon, tip }: PrimatyButtonProps){
+export default function PrimaryButton({ Icon, tip, onClick }: PrimatyButtonProps){
     return (
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button className="size-12 p-3 primary-btn">
+              <Button className="size-12 p-3 primary-btn" onClick={onClick}>
                 <Icon className="size-full"/>
             </Button>
             </TooltipTrigger>
