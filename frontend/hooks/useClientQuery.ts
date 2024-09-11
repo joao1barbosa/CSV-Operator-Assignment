@@ -12,7 +12,6 @@ export const useUploadClients = () => {
     const uploadReq = async (file: File): Promise<void> => {
         const formData = new FormData();
         formData.append("file", file);
-
         try {
             await axios.post<void>(
                 `${baseURL}/upload`,
@@ -24,8 +23,9 @@ export const useUploadClients = () => {
                 }
             );
         } catch (error) {
-            // Lança o erro se a requisição falhar
-            throw error;
+            if (axios.isAxiosError(error) && error.response) {
+                throw error.response.data as UploadErrorResponse;
+            }
         }
     };
 
