@@ -13,6 +13,7 @@ import { Button } from "./ui/button";
 import { Trash2 } from 'lucide-react';
 import { useDeleteOperator } from "@/hooks/useOperatorQuery";
 import { useDeleteClient } from "@/hooks/useClientQuery";
+import { useRefetch } from "@/hooks/useRefetch";
 
 interface DeleteDialogProps{
   to: 'client' | 'operator';

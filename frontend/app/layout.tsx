@@ -5,6 +5,7 @@ import Image from "next/image";
 import arrow from "@/public/arrow.svg";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { RefetchProvider } from "@/contexts/refetch-context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,7 +26,9 @@ export default function RootLayout({
         className="absolute -z-10 h-full sm:w-3/6 py-4 left-0 bottom-0"
       />
       <QueryClientProvider client={queryClient}>
-        {children}
+        <RefetchProvider>
+          {children}
+        </RefetchProvider>
       </QueryClientProvider>
       <Toaster/>
       </body>

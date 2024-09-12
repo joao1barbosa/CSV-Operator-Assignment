@@ -1,13 +1,15 @@
-import { useQuery, keepPreviousData, useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useToast } from "./use-toast";
 import { Client, ErrorResponse } from "@/@types";
+import { useRefetch } from "./useRefetch";
 
 const baseURL = `${process.env.NEXT_PUBLIC_API_URL}/clients`;
 
 export const useDeleteClient = () => {
     const queryClient = useQueryClient();
     const { toast } = useToast();
+    const { refetch } = useRefetch();
   
     const deleteReq = async (id: number): Promise<Client> => {
       const response = await axios.delete<Client>(`${baseURL}/${id}`);
@@ -25,6 +27,7 @@ export const useDeleteClient = () => {
           title: "Cliente deletado",
           duration: 1500,
         });
+        if (refetch) refetch();
       },
       onError: () => {
         toast({
@@ -34,11 +37,12 @@ export const useDeleteClient = () => {
         })
       }
     });
-  }
+}
 
 export const useUploadClients = () => {
     const queryClient = useQueryClient();
     const { toast } = useToast();
+    const { refetch } = useRefetch();
 
     const uploadReq = async (file: File): Promise<void> => {
         const formData = new FormData();
@@ -68,6 +72,7 @@ export const useUploadClients = () => {
                 exact: true,
             });
             toast({ title: "Arquivo enviado com sucesso", duration: 1500 });
+            if (refetch) refetch();
         },
         onError: (error: ErrorResponse) => {
             toast({ 
@@ -121,6 +126,7 @@ export const useDownloadClients = () => {
 export const useRedistributeClients = () => {
     const queryClient = useQueryClient();
     const { toast } = useToast();
+    const { refetch } = useRefetch();
 
     const redistributeReq = async (): Promise<void> => {
         return await axios.get(`${baseURL}/redistribute`);
@@ -137,6 +143,7 @@ export const useRedistributeClients = () => {
             title: "Clientes Redistribuídos",
             duration: 1500,
           });
+          if (refetch) refetch();
         },
       });
 }

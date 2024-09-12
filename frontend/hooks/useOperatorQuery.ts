@@ -2,12 +2,14 @@ import { Operator, OperatorWithClient } from "@/@types";
 import { useQuery, keepPreviousData, useQueryClient, useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useToast } from "./use-toast";
+import { useRefetch } from "./useRefetch";
 
 const baseURL = `${process.env.NEXT_PUBLIC_API_URL}/operators`;
 
 export const useCreateOperator = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { refetch } = useRefetch();
 
   const createReq = async (data: Omit<Operator, 'id'>): Promise<Operator> => {
     const response = await axios.post<Operator>(baseURL, data);
@@ -25,6 +27,7 @@ export const useCreateOperator = () => {
         title: "Operador adicionado",
         duration: 1500,
       });
+      if (refetch) refetch();
     },
     onError: () => {
       toast({
@@ -50,6 +53,7 @@ export const useReadOperators = () => {
 export const useUpdateOperator = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { refetch } = useRefetch();
 
   const updateReq = async (data: Partial<Operator> & { id: number }): Promise<Operator> => {
     const { id, ...rest } = data;
@@ -69,6 +73,7 @@ export const useUpdateOperator = () => {
         title: "Operador atualizado",
         duration: 1500,
       });
+      if (refetch) refetch();
     },
     onError: () => {
       toast({
@@ -83,6 +88,7 @@ export const useUpdateOperator = () => {
 export const useDeleteOperator = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { refetch } = useRefetch();
 
   const deleteReq = async (id: number): Promise<Operator> => {
     const response = await axios.delete<Operator>(`${baseURL}/${id}`);
@@ -100,6 +106,7 @@ export const useDeleteOperator = () => {
         title: "Operador deletado",
         duration: 1500,
       });
+      if (refetch) refetch();
     },
     onError: () => {
       toast({

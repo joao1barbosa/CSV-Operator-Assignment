@@ -5,8 +5,16 @@ import Block from "@/components/block";
 import NavButtons from "@/components/nav-buttons";
 import CreaterDrawer from "@/components/creater-drawer";
 
+import { useRefetch } from "@/hooks/useRefetch";
+import { useEffect } from "react";
+
 export default function Home() {
-  const { data: operatorsResponse } = useReadOperators();
+  const { data: operatorsResponse, refetch } = useReadOperators();
+  const { setRefetch } = useRefetch();
+
+  useEffect(() => {
+    setRefetch(() => refetch);
+  }, [refetch, setRefetch]);
 
   return (
     <div className="flex flex-col items-center h-screen w-screen">
@@ -20,11 +28,11 @@ export default function Home() {
         <Separator className="w-[97%]"/>
       </div>
       <main className="flex w-full justify-center items-start p-4 gap-4 flex-wrap">
-        {operatorsResponse?.map((operator) => {
-          return(
-            <Block key={operator.id} operator={operator}/>
-          )
-        })}
+          {operatorsResponse?.map((operator) => {
+            return(
+              <Block key={operator.id} operator={operator}/>
+            )
+          })}
       </main>
     </div>
   );
