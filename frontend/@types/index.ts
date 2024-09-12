@@ -1,5 +1,5 @@
 import { Client } from "./Client";
 import { Operator, OperatorWithClient } from "./Operators";
-import { UploadErrorResponse } from "./UpdateResponse";
+import { ErrorResponse } from "./ErrorResponse";
 
-export type {Client, Operator, OperatorWithClient, UploadErrorResponse};
+export type {Client, Operator, OperatorWithClient, ErrorResponse};

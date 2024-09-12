@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Separator } from "./ui/separator";
 import { OctagonX } from 'lucide-react';
 import OperatorOptions from "./operator-options";
+import { DeleteDialog } from "./delete-dialog";
 
 interface BlockProps{
     operator: OperatorWithClient
@@ -38,14 +39,16 @@ export default function Block({operator}: BlockProps) {
                         <>
                         {operator.clients.map((client) => {
                             return(
-                                <div key={client.id} className="flex flex-col items-center space-y-2">
+                                <div key={client.id} className="flex flex-col items-center">
                                     <Separator className="w-[95%] opacity-30"/>
-                                    <div className="flex justify-between w-full">
+                                    <div className="flex justify-between w-full mt-2">
                                         <p className="font-semibold">{client.name}</p>
                                         |
                                         <p>{client.birth_date}</p>
+                                        |
+                                        <DeleteDialog to="client" id={client.id} color="green"/>
                                     </div>
-                                    <div className="flex justify-between">
+                                    <div className="flex justify-between mt-1 mb-1">
                                         <p className="whitespace-nowrap">R$ {client.value/100}</p>
                                         &nbsp;|&nbsp;
                                         <p>{client.email}</p>

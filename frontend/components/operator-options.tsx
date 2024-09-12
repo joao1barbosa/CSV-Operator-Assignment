@@ -32,7 +32,7 @@ export default function OperatorOptions({ operator }: OperatorOptionsProps) {
         register,
         handleSubmit,
         formState: { errors },
-    } = methods
+    } = methods;
 
     const { mutate } = useUpdateOperator();
 

@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { useReadOperators } from "@/hooks/useOperatorQuery";
 import Block from "@/components/block";
 import NavButtons from "@/components/nav-buttons";
-import OptionMenu from "@/components/option-menu";
+import CreaterDrawer from "@/components/creater-drawer";
 
 export default function Home() {
   const { data: operatorsResponse } = useReadOperators();
@@ -12,7 +12,7 @@ export default function Home() {
     <div className="flex flex-col items-center h-screen w-screen">
       <header className="flex w-full pt-6 pb-4 px-2 justify-center items-center">
         <nav className="flex flex-row whitespace-nowrap justify-between w-full sm:w-3/4">
-          <OptionMenu/>
+          <CreaterDrawer/>
           <NavButtons/>
         </nav>
       </header>

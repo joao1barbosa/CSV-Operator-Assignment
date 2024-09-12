@@ -5,6 +5,37 @@ import { useToast } from "./use-toast";
 
 const baseURL = `${process.env.NEXT_PUBLIC_API_URL}/operators`;
 
+export const useCreateOperator = () => {
+  const queryClient = useQueryClient();
+  const { toast } = useToast();
+
+  const createReq = async (data: Omit<Operator, 'id'>): Promise<Operator> => {
+    const response = await axios.post<Operator>(baseURL, data);
+    return response.data;
+  };
+
+  return useMutation<Operator, Error, Omit<Operator, 'id'>>({
+    mutationFn: createReq,
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['get-cards'],
+        exact: true
+      });
+      toast({
+        title: "Operador adicionado",
+        duration: 1500,
+      });
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Erro ao adicionar operador",
+        duration: 1500,
+      })
+    },
+  });
+}
+
 export const useReadOperators = () => {
     return useQuery<OperatorWithClient[]>({
       queryKey: ['get-operators'],

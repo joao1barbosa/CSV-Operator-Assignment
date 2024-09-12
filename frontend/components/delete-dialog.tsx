@@ -12,19 +12,28 @@ import {
 import { Button } from "./ui/button";
 import { Trash2 } from 'lucide-react';
 import { useDeleteOperator } from "@/hooks/useOperatorQuery";
+import { useDeleteClient } from "@/hooks/useClientQuery";
 
 interface DeleteDialogProps{
   to: 'client' | 'operator';
+  color?: 'red' | 'green'
   id: number;
 }
 
-export function DeleteDialog({ to, id }: DeleteDialogProps) {
+export function DeleteDialog({ to, id, color = 'red' }: DeleteDialogProps) {
   const { mutate: deleteOperator } = useDeleteOperator();
+  const { mutate: deleteClient } = useDeleteClient();
+
+  const buttonColor = (color === 'red') ? 'bg-red-700 hover:bg-red-950' : 'bg-green-900 hover:bg-green-700';
+
+  const handleConfirm = () =>{
+    (to === 'operator') ? deleteOperator(id) : deleteClient(id);
+  }
 
     return (
       <AlertDialog>
         <AlertDialogTrigger asChild>
-            <Button className="size-8 p-1 bg-red-700 hover:bg-red-950 text-white">
+            <Button className={`size-6 p-1 text-white ${buttonColor}`}>
               <Trash2/>
             </Button>
         </AlertDialogTrigger>
@@ -39,7 +48,7 @@ export function DeleteDialog({ to, id }: DeleteDialogProps) {
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
             <AlertDialogAction 
               className="bg-red-700 hover:bg-red-950 text-white"
-              onClick={()=> deleteOperator(id)}
+              onClick={handleConfirm}
             >
               Continuar
             </AlertDialogAction>
