@@ -30,9 +30,9 @@ export default function Block({operator}: BlockProps) {
                 </div>
                 <div className="space-y-2 text-zinc-200">
                     {(operator.clients.length === 0) ?
-                        <div className="flex justify-center items-center space-x-2 h-full">
-                            <OctagonX/>
+                        <div className="flex flex-col justify-center items-center space-y-2 h-full">
                             <p className="font-semibold">Nenhum Cliente Atribuído</p>
+                            <OctagonX className="w-full"/>
                         </div>
                     :
                         <>
