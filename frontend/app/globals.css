@@ -58,6 +58,7 @@
   --card: #0A1603;
   --card-foreground: #008D1F;
   --color-primary: #82C65B;
+  --color-primary-hover: #527e39;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -97,5 +98,10 @@ body {
     background-color: var(--color-primary) !important;
     color: #1E1E1E !important;
     border-radius: 0.5rem 0 !important;
+    margin-top: 0 !important;
+  }
+
+  .primary-btn:hover{
+    background-color: var(--color-primary-hover) !important;
   }
 }
