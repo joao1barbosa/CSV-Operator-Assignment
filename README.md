@@ -54,7 +54,8 @@ Mais detalhes no arquivo [SinkaTest](./docs/SinkaTest.md).
 
 ## 🌐 Variáveis Ambiente
 
-Como a aplicação é construída usando containers docker, é necessário apenas criar as variáveis como está descrito no arquivo **env.example** na raíz do projeto.
+Como a aplicação é construída usando containers docker e não é uma aplicação que será mantida em produção, optei por deixar o arquivo **.env.example** com as variáveis já configuradas.
+Desta forma é necessário apenas renomear o aquivo para **.env**.
 
 ## 🏁 Dependências
 
@@ -63,23 +64,13 @@ Como a aplicação é construída usando containers docker, é necessário apena
 
 ## 🏗 Setup e Run
 
-Para construir a aplicação, você pode executar o arquivo de configuração (Linux).
-
-Primeiramente, dê permissão ao arquivo, com o seguinte comando na raiz do projeto:
+Para construir e executar a aplicação, basta ter as dependências instaladas e executar o comando abaixo:
 
 ```sh
-chmod +x config.sh
+docker compose up --build -d
 ```
 
-Em seguida, execute-o:
-
-```sh
-./config.sh
-```
-
-Você também pode executar os comandos descritos no arquivo manualmente, se assim preferir.
-
-## 📋 Endpoints
+## 📋 Endpoints da API
 
 ### App
 
