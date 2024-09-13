@@ -31,6 +31,11 @@ COPY package.json yarn.lock ./
 # Copie a pasta prisma necessária para a aplicação
 COPY --from=builder /app/prisma /app/prisma
 
+ARG DATABASE_URL
+
+# Passe o argumento como variável de ambiente para o build
+ENV DATABASE_URL=$DATABASE_URL
+
 # Instale as dependências necessárias para a execução
 RUN yarn install --production
 
