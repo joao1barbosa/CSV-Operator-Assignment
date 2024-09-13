@@ -6,6 +6,8 @@ Este projeto consiste na solução de um desafio técnico para desenvolvedor ful
 - Cadastro de Clientes: Oferece a funcionalidade de enviar um arquivo CSV para o cadastro imediato de clientes.
 - Exportação de Clientes: Possibilita baixar um arquivo CSV com a lista de todos os clientes cadastrados.
 
+Mais detalhes no arquivo [SinkaTest](./docs/SinkaTest.md)
+
 ## 📷 Demonstrações
 
 ### Dashboard
@@ -52,11 +54,7 @@ Este projeto consiste na solução de um desafio técnico para desenvolvedor ful
 
 ## 🌐 Variáveis Ambiente
 
-Para fins de praticidade e, visto que é um projeto que não irá para produção, optei por deixar as variáveis de ambiente padrões.
-
-Logo, a única configuração necessária é mudar o nome do arquivo **.env.example** para **.env** e definir a **APP_KEY** do Laravel.
-
-(Essas configurações são feitas automaticamente ao executar o arquivo **config.sh**)
+Como a aplicação é construída usando containers docker, é necessário apenas criar as variáveis como está descrito no arquivo **env.example** na raíz do projeto.
 
 ## 🏁 Dependências
 
@@ -84,3 +82,53 @@ Você também pode executar os comandos descritos no arquivo manualmente, se ass
 # 🏃 Run
 
 ## 📋 Endpoints
+
+### Operators
+
+### App
+
+- **GET** `/` - Retorna "API on!".
+
+- **POST** `/operators` - Cria um operador.
+  - **Body:** `CreateOperatorDto`
+- **GET** `/operators` - Retorna todos os operadores.
+
+- **GET** `/operators/:id` - Retorna um operador pelo ID.
+
+  - **Params:** `id` (number)
+
+- **PATCH** `/operators/:id` - Atualiza um operador.
+
+  - **Params:** `id` (number)
+  - **Body:** `UpdateOperatorDto`
+
+- **DELETE** `/operators/:id` - Remove um operador.
+  - **Params:** `id` (number)
+
+### Clients
+
+- **POST** `/clients` - Cria um cliente.
+
+  - **Body:** `CreateClientDto`
+
+- **GET** `/clients` - Retorna todos os clientes.
+
+- **GET** `/clients/download` - Exporta clientes em CSV.
+
+- **GET** `/clients/redistribute` - Redistribui clientes entre operadores.
+
+- **POST** `/clients/upload` - Faz upload de um CSV de clientes.
+
+  - **Form Data:** `file` (CSV)
+
+- **GET** `/clients/:id` - Retorna um cliente pelo ID.
+
+  - **Params:** `id` (number)
+
+- **PATCH** `/clients/:id` - Atualiza um cliente.
+
+  - **Params:** `id` (number)
+  - **Body:** `UpdateClientDto`
+
+- **DELETE** `/clients/:id` - Remove um cliente.
+  - **Params:** `id` (number)
