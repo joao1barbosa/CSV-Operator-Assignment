@@ -6,7 +6,7 @@ Este projeto consiste na solução de um desafio técnico para desenvolvedor ful
 - Cadastro de Clientes: Oferece a funcionalidade de enviar um arquivo CSV para o cadastro imediato de clientes.
 - Exportação de Clientes: Possibilita baixar um arquivo CSV com a lista de todos os clientes cadastrados.
 
-Mais detalhes no arquivo [SinkaTest](./docs/SinkaTest.md)
+Mais detalhes no arquivo [SinkaTest](./docs/SinkaTest.md).
 
 ## 📷 Demonstrações
 
@@ -61,7 +61,7 @@ Como a aplicação é construída usando containers docker, é necessário apena
 - Docker
 - Docker Compose V2
 
-## 🏗 Setup
+## 🏗 Setup e Run
 
 Para construir a aplicação, você pode executar o arquivo de configuração (Linux).
 
@@ -79,15 +79,13 @@ Em seguida, execute-o:
 
 Você também pode executar os comandos descritos no arquivo manualmente, se assim preferir.
 
-# 🏃 Run
-
 ## 📋 Endpoints
-
-### Operators
 
 ### App
 
 - **GET** `/` - Retorna "API on!".
+
+### Operators
 
 - **POST** `/operators` - Cria um operador.
   - **Body:** `CreateOperatorDto`
